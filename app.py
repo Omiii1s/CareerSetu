@@ -2,8 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__, template_folder='.', static_folder='.')
+app = Flask(__name__, template_folder='.', static_folder='static')
 app.secret_key = "careersetup-mvp-change-this-secret"
+
+@app.after_request
+def add_stylesheet(response):
+    if response.content_type and response.content_type.startswith("text/html"):
+        body = response.get_data(as_text=True)
+        if "/static/style.css" not in body:
+            body = body.replace("</head>", '<link rel="stylesheet" href="/static/style.css"></head>', 1)
+            response.set_data(body)
+    return response
 DB = "careersetu.db"
 
 def db():
@@ -176,4 +185,3 @@ init_db()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-    
