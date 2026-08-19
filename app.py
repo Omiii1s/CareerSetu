@@ -1,26 +1,9 @@
 import os
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from flask import (
-    Flask,
-    render_template,
-    request,
-    redirect,
-    url_for,
-    session,
-    flash
-)
-
-from werkzeug.security import (
-    generate_password_hash,
-    check_password_hash
-)
-
-
-# =========================================================
-# CONFIGURATION
-# =========================================================
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,23 +14,12 @@ app = Flask(
     static_url_path="/static"
 )
 
-# IMPORTANT:
-# Change this in Render Environment Variables later.
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "CHANGE-THIS-CAREERSETU-SECRET-KEY"
 )
 
 DB = os.path.join(BASE_DIR, "careersetu.db")
-
-
-# =========================================================
-# ADMIN LOGIN
-# =========================================================
-
-# You can change these two values.
-# Better: set ADMIN_EMAIL and ADMIN_PASSWORD
-# in Render Environment Variables.
 
 ADMIN_EMAIL = os.environ.get(
     "ADMIN_EMAIL",
@@ -61,7 +33,7 @@ ADMIN_PASSWORD = os.environ.get(
 
 
 # =========================================================
-# DATABASE CONNECTION
+# DATABASE
 # =========================================================
 
 def db():
@@ -70,45 +42,11 @@ def db():
     return conn
 
 
-# =========================================================
-# ACTIVITY LOGGER
-# =========================================================
-
-def log_activity(user_id, action, details=""):
-    try:
-        conn = db()
-
-        conn.execute(
-            """
-            INSERT INTO activity
-            (user_id, action, details, created_at)
-            VALUES (?, ?, ?, ?)
-            """,
-            (
-                user_id,
-                action,
-                details,
-                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            )
-        )
-
-        conn.commit()
-        conn.close()
-
-    except Exception as e:
-        print("Activity logging error:", e)
-
-
-# =========================================================
-# DATABASE INITIALIZATION
-# =========================================================
-
 def init_db():
 
     conn = db()
 
     conn.executescript("""
-    
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
@@ -147,12 +85,7 @@ def init_db():
         last_seen TEXT NOT NULL,
         is_online INTEGER DEFAULT 1
     );
-
     """)
-
-    # =====================================================
-    # DEFAULT GIGS
-    # =====================================================
 
     if conn.execute(
         "SELECT COUNT(*) FROM gigs"
@@ -171,26 +104,20 @@ def init_db():
                     "Canva",
                     "₹500"
                 ),
-
                 (
                     "Python Data Cleanup",
                     "Clean and organize a small CSV dataset.",
                     "Python",
                     "₹800"
                 ),
-
                 (
                     "Website Landing Page",
                     "Build a simple responsive landing page.",
                     "HTML/CSS",
                     "₹1,200"
-                ),
+                )
             ]
         )
-
-    # =====================================================
-    # DEFAULT MENTORS
-    # =====================================================
 
     if conn.execute(
         "SELECT COUNT(*) FROM mentors"
@@ -208,18 +135,16 @@ def init_db():
                     "Python",
                     "Helps beginners build practical Python projects."
                 ),
-
                 (
                     "Sneha",
                     "Web Development",
                     "Guides students from basics to portfolio projects."
                 ),
-
                 (
                     "Rahul",
                     "AI/ML",
                     "Focuses on beginner-friendly AI/ML roadmaps."
-                ),
+                )
             ]
         )
 
@@ -228,48 +153,69 @@ def init_db():
 
 
 # =========================================================
-# USER PRESENCE
+# ACTIVITY
+# =========================================================
+
+def log_activity(user_id, action, details=""):
+
+    conn = db()
+
+    conn.execute(
+        """
+        INSERT INTO activity
+        (user_id, action, details, created_at)
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            user_id,
+            action,
+            details,
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+
+# =========================================================
+# UPDATE ONLINE STATUS
 # =========================================================
 
 @app.before_request
-def update_user_presence():
+def track_user():
 
-    # Ignore static files
     if request.endpoint == "static":
         return
 
-    # Only normal logged-in users
-    if "user_id" in session:
+    if "user_id" not in session:
+        return
 
-        try:
-            now = datetime.now().strftime(
-                "%Y-%m-%d %H:%M:%S"
-            )
+    now = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
 
-            conn = db()
+    conn = db()
 
-            conn.execute(
-                """
-                INSERT INTO user_presence
-                (user_id, last_seen, is_online)
-                VALUES (?, ?, 1)
+    conn.execute(
+        """
+        INSERT INTO user_presence
+        (user_id, last_seen, is_online)
+        VALUES (?, ?, 1)
 
-                ON CONFLICT(user_id)
-                DO UPDATE SET
-                    last_seen = excluded.last_seen,
-                    is_online = 1
-                """,
-                (
-                    session["user_id"],
-                    now
-                )
-            )
+        ON CONFLICT(user_id)
+        DO UPDATE SET
+            last_seen = excluded.last_seen,
+            is_online = 1
+        """,
+        (
+            session["user_id"],
+            now
+        )
+    )
 
-            conn.commit()
-            conn.close()
-
-        except Exception as e:
-            print("Presence error:", e)
+    conn.commit()
+    conn.close()
 
 
 # =========================================================
@@ -291,13 +237,11 @@ def signup():
     if request.method == "POST":
 
         name = request.form["name"].strip()
-
         email = request.form["email"].strip().lower()
-
         password = request.form["password"]
 
-        # IMPORTANT:
-        # Normal users can NEVER choose admin role.
+        # SECURITY:
+        # Normal signup can NEVER create admin.
         role = "student"
 
         if not name or not email or not password:
@@ -367,7 +311,6 @@ def login():
     if request.method == "POST":
 
         email = request.form["email"].strip().lower()
-
         password = request.form["password"]
 
         conn = db()
@@ -389,12 +332,13 @@ def login():
         ):
 
             session["user_id"] = user["id"]
-
             session["name"] = user["name"]
-
             session["role"] = user["role"]
 
-            # Mark online
+            now = datetime.now().strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+
             conn = db()
 
             conn.execute(
@@ -410,9 +354,7 @@ def login():
                 """,
                 (
                     user["id"],
-                    datetime.now().strftime(
-                        "%Y-%m-%d %H:%M:%S"
-                    )
+                    now
                 )
             )
 
@@ -476,7 +418,7 @@ def logout():
 
 
 # =========================================================
-# USER DASHBOARD
+# DASHBOARD
 # =========================================================
 
 @app.route("/dashboard")
@@ -491,28 +433,16 @@ def dashboard():
     conn = db()
 
     user = conn.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE id = ?
-        """,
+        "SELECT * FROM users WHERE id=?",
         (session["user_id"],)
     ).fetchone()
 
     gigs = conn.execute(
-        """
-        SELECT *
-        FROM gigs
-        ORDER BY id DESC
-        """
+        "SELECT * FROM gigs ORDER BY id DESC"
     ).fetchall()
 
     mentors = conn.execute(
-        """
-        SELECT *
-        FROM mentors
-        ORDER BY id DESC
-        """
+        "SELECT * FROM mentors ORDER BY id DESC"
     ).fetchall()
 
     conn.close()
@@ -526,13 +456,10 @@ def dashboard():
 
 
 # =========================================================
-# AI ANALYZER
+# ANALYZER
 # =========================================================
 
-@app.route(
-    "/analyzer",
-    methods=["GET", "POST"]
-)
+@app.route("/analyzer", methods=["GET", "POST"])
 def analyzer():
 
     result = None
@@ -551,11 +478,7 @@ def analyzer():
 
         suggestions = []
 
-        # Python
-        if (
-            "python" in skills
-            or "python" in interests
-        ):
+        if "python" in skills or "python" in interests:
 
             suggestions += [
                 "Git & GitHub",
@@ -564,11 +487,7 @@ def analyzer():
                 "Data Analysis"
             ]
 
-        # Java
-        if (
-            "java" in skills
-            or "java" in interests
-        ):
+        if "java" in skills or "java" in interests:
 
             suggestions += [
                 "OOP Projects",
@@ -577,14 +496,9 @@ def analyzer():
                 "Git & GitHub"
             ]
 
-        # Web
         if any(
             x in interests
-            for x in [
-                "web",
-                "website",
-                "frontend"
-            ]
+            for x in ["web", "website", "frontend"]
         ):
 
             suggestions += [
@@ -593,14 +507,9 @@ def analyzer():
                 "Responsive Design"
             ]
 
-        # AI / ML
         if any(
             x in interests
-            for x in [
-                "ai",
-                "ml",
-                "machine learning"
-            ]
+            for x in ["ai", "ml", "machine learning"]
         ):
 
             suggestions += [
@@ -610,7 +519,6 @@ def analyzer():
                 "Model Deployment"
             ]
 
-        # Default
         if not suggestions:
 
             suggestions = [
@@ -620,12 +528,10 @@ def analyzer():
                 "Problem Solving"
             ]
 
-        # Unique suggestions
         result = list(
             dict.fromkeys(suggestions)
         )[:8]
 
-        # Save user's skills
         if "user_id" in session:
 
             conn = db()
@@ -633,21 +539,12 @@ def analyzer():
             conn.execute(
                 """
                 UPDATE users
-                SET skills = ?,
-                    interests = ?
-                WHERE id = ?
+                SET skills=?, interests=?
+                WHERE id=?
                 """,
                 (
-                    request.form.get(
-                        "skills",
-                        ""
-                    ),
-
-                    request.form.get(
-                        "interests",
-                        ""
-                    ),
-
+                    request.form.get("skills", ""),
+                    request.form.get("interests", ""),
                     session["user_id"]
                 )
             )
@@ -655,7 +552,6 @@ def analyzer():
             conn.commit()
             conn.close()
 
-            # Activity
             log_activity(
                 session["user_id"],
                 "AI_ANALYZER",
@@ -678,11 +574,7 @@ def gigs():
     conn = db()
 
     rows = conn.execute(
-        """
-        SELECT *
-        FROM gigs
-        ORDER BY id DESC
-        """
+        "SELECT * FROM gigs ORDER BY id DESC"
     ).fetchall()
 
     conn.close()
@@ -703,11 +595,7 @@ def mentors():
     conn = db()
 
     rows = conn.execute(
-        """
-        SELECT *
-        FROM mentors
-        ORDER BY id DESC
-        """
+        "SELECT * FROM mentors ORDER BY id DESC"
     ).fetchall()
 
     conn.close()
@@ -719,7 +607,7 @@ def mentors():
 
 
 # =========================================================
-# APPLY FOR GIG
+# APPLY
 # =========================================================
 
 @app.route("/apply/<int:gig_id>")
@@ -734,17 +622,13 @@ def apply(gig_id):
     conn = db()
 
     gig = conn.execute(
-        """
-        SELECT title
-        FROM gigs
-        WHERE id = ?
-        """,
+        "SELECT title FROM gigs WHERE id=?",
         (gig_id,)
     ).fetchone()
 
     conn.close()
 
-    gig_title = (
+    title = (
         gig["title"]
         if gig
         else "Unknown gig"
@@ -753,11 +637,11 @@ def apply(gig_id):
     log_activity(
         session["user_id"],
         "GIG_APPLICATION",
-        gig_title
+        title
     )
 
     flash(
-        f"Application started for: {gig_title}",
+        f"Application started for: {title}",
         "success"
     )
 
@@ -770,10 +654,7 @@ def apply(gig_id):
 # ADMIN LOGIN
 # =========================================================
 
-@app.route(
-    "/admin-login",
-    methods=["GET", "POST"]
-)
+@app.route("/admin-login", methods=["GET", "POST"])
 def admin_login():
 
     if request.method == "POST":
@@ -794,7 +675,6 @@ def admin_login():
         ):
 
             session["admin"] = True
-
             session["admin_email"] = email
 
             return redirect(
@@ -819,7 +699,6 @@ def admin_login():
 def admin_logout():
 
     session.pop("admin", None)
-
     session.pop("admin_email", None)
 
     return redirect(
@@ -842,96 +721,137 @@ def admin():
 
     conn = db()
 
-    # -----------------------------------------------------
-    # TOTAL USERS
-    # -----------------------------------------------------
+    # Mark users offline if inactive
+    # for more than 5 minutes.
+    cutoff = (
+        datetime.now() - timedelta(minutes=5)
+    ).strftime("%Y-%m-%d %H:%M:%S")
+
+    conn.execute(
+        """
+        UPDATE user_presence
+        SET is_online = 0
+        WHERE last_seen < ?
+        """,
+        (cutoff,)
+    )
+
+    conn.commit()
 
     total_users = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM users
-        """
+        "SELECT COUNT(*) FROM users"
     ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # TOTAL GIGS
-    # -----------------------------------------------------
-
-    total_gigs = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM gigs
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # TOTAL MENTORS
-    # -----------------------------------------------------
-
-    total_mentors = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM mentors
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # TOTAL LOGINS
-    # -----------------------------------------------------
-
-    total_logins = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM activity
-        WHERE action = 'LOGIN'
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # AI ANALYZER USES
-    # -----------------------------------------------------
-
-    total_ai_uses = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM activity
-        WHERE action = 'AI_ANALYZER'
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # GIG APPLICATIONS
-    # -----------------------------------------------------
-
-    total_applications = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM activity
-        WHERE action = 'GIG_APPLICATION'
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # NEW SIGNUPS
-    # -----------------------------------------------------
-
-    total_signups = conn.execute(
-        """
-        SELECT COUNT(*)
-        FROM activity
-        WHERE action = 'SIGNUP'
-        """
-    ).fetchone()[0]
-
-    # -----------------------------------------------------
-    # CURRENTLY ONLINE
-    #
-    # Active if last request was within last 5 minutes.
-    # -----------------------------------------------------
 
     online_users = conn.execute(
         """
         SELECT COUNT(*)
         FROM user_presence
         WHERE is_online = 1
-        AND datetime(la
+        """
+    ).fetchone()[0]
+
+    total_gigs = conn.execute(
+        "SELECT COUNT(*) FROM gigs"
+    ).fetchone()[0]
+
+    total_mentors = conn.execute(
+        "SELECT COUNT(*) FROM mentors"
+    ).fetchone()[0]
+
+    total_logins = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM activity
+        WHERE action='LOGIN'
+        """
+    ).fetchone()[0]
+
+    total_ai_uses = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM activity
+        WHERE action='AI_ANALYZER'
+        """
+    ).fetchone()[0]
+
+    total_applications = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM activity
+        WHERE action='GIG_APPLICATION'
+        """
+    ).fetchone()[0]
+
+    total_signups = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM activity
+        WHERE action='SIGNUP'
+        """
+    ).fetchone()[0]
+
+    users = conn.execute(
+        """
+        SELECT
+            u.id,
+            u.name,
+            u.email,
+            u.role,
+            u.skills,
+            u.interests,
+            p.last_seen,
+            COALESCE(p.is_online, 0) AS is_online
+        FROM users u
+        LEFT JOIN user_presence p
+        ON u.id = p.user_id
+        ORDER BY u.id DESC
+        """
+    ).fetchall()
+
+    activities = conn.execute(
+        """
+        SELECT
+            a.action,
+            a.details,
+            a.created_at,
+            u.name,
+            u.email
+        FROM activity a
+        LEFT JOIN users u
+        ON a.user_id = u.id
+        ORDER BY a.id DESC
+        LIMIT 50
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin.html",
+        total_users=total_users,
+        online_users=online_users,
+        total_gigs=total_gigs,
+        total_mentors=total_mentors,
+        total_logins=total_logins,
+        total_ai_uses=total_ai_uses,
+        total_applications=total_applications,
+        total_signups=total_signups,
+        users=users,
+        activities=activities
+    )
+
+
+# =========================================================
+# START
+# =========================================================
+
+init_db()
+
+
+if __name__ == "__main__":
+
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )
