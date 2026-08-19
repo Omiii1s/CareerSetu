@@ -3,480 +3,509 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>CareerSetu Admin</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background:
-                radial-gradient(
-                    circle at 15% 0%,
-                    rgba(55,100,255,.18),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 100% 30%,
-                    rgba(150,50,255,.15),
-                    transparent 30%
-                ),
-                #050814;
-
-            color: #f5f7ff;
-            min-height: 100vh;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-
-            padding: 18px 24px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            background: rgba(5,8,20,.85);
-            border-bottom: 1px solid rgba(120,140,200,.15);
-
-            backdrop-filter: blur(18px);
-        }
-
-        .logo {
-            font-size: 27px;
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #49a3ff,
-                    #a33cff
-                );
-
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .admin-label {
-            color: #8999b8;
-            font-size: 12px;
-            letter-spacing: 1.5px;
-            margin-top: 3px;
-        }
-
-        .logout {
-            padding: 11px 17px;
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #367dff,
-                    #9638f5
-                );
-
-            color: white;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-        main {
-            max-width: 1250px;
-            margin: auto;
-            padding: 35px 20px 80px;
-        }
+<title>CareerSetu Admin</title>
 
-        .hero {
-            padding: 28px 0 35px;
-        }
+<style>
 
-        .badge {
-            display: inline-block;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-            padding: 9px 15px;
+body {
+    font-family: Arial, sans-serif;
 
-            border-radius: 30px;
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(55,100,255,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 100% 30%,
+            rgba(150,50,255,.15),
+            transparent 30%
+        ),
+        #050814;
 
-            color: #9db5ff;
+    color: #f5f7ff;
+    min-height: 100vh;
+}
 
-            border: 1px solid rgba(90,120,255,.3);
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-            background: rgba(60,90,255,.09);
 
-            font-size: 12px;
-            font-weight: 700;
+/* HEADER */
 
-            letter-spacing: 2px;
+header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
 
-            margin-bottom: 18px;
-        }
+    padding: 18px 24px;
 
-        h1 {
-            font-size: clamp(34px, 6vw, 58px);
-            line-height: 1.05;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-        .gradient {
-            background:
-                linear-gradient(
-                    90deg,
-                    #4da3ff,
-                    #a644ff
-                );
+    background: rgba(5,8,20,.88);
 
-            -webkit-background-clip: text;
-            color: transparent;
-        }
+    border-bottom:
+        1px solid rgba(120,140,200,.15);
 
-        .hero p {
-            margin-top: 15px;
-            color: #8796b4;
-            font-size: 16px;
-            line-height: 1.7;
-        }
+    backdrop-filter: blur(18px);
+}
 
-        /* =========================
-           STATS
-        ========================= */
+.logo {
+    font-size: 27px;
+    font-weight: 800;
 
-        .stats {
-            display: grid;
+    background:
+        linear-gradient(
+            90deg,
+            #49a3ff,
+            #a33cff
+        );
 
-            grid-template-columns:
-                repeat(4, 1fr);
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
-            gap: 15px;
+.admin-label {
+    color: #8999b8;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-top: 3px;
+}
 
-            margin-bottom: 35px;
-        }
+.logout {
+    padding: 11px 17px;
 
-        .stat {
-            padding: 22px;
+    border-radius: 12px;
 
-            min-height: 145px;
+    background:
+        linear-gradient(
+            90deg,
+            #367dff,
+            #9638f5
+        );
 
-            border-radius: 22px;
+    color: white;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(20,31,60,.95),
-                    rgba(10,17,35,.9)
-                );
+    font-size: 13px;
+    font-weight: 700;
+}
 
-            border: 1px solid rgba(100,130,200,.16);
 
-            box-shadow:
-                0 20px 60px rgba(0,0,0,.2);
-        }
+/* MAIN */
 
-        .stat-icon {
-            font-size: 24px;
-            margin-bottom: 18px;
-        }
+main {
+    max-width: 1250px;
+    margin: auto;
 
-        .stat-name {
-            color: #8493b2;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1.3px;
-        }
+    padding: 35px 20px 80px;
+}
 
-        .stat-value {
-            margin-top: 8px;
-            font-size: 32px;
-            font-weight: 800;
-        }
+.hero {
+    padding: 28px 0 35px;
+}
 
-        .online {
-            color: #4dffb2;
-        }
+.badge {
+    display: inline-block;
 
-        /* =========================
-           SECTIONS
-        ========================= */
+    padding: 9px 15px;
 
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    border-radius: 30px;
 
-            margin: 45px 0 18px;
-        }
+    color: #9db5ff;
 
-        .section-title h2 {
-            font-size: 25px;
-        }
+    border:
+        1px solid rgba(90,120,255,.3);
 
-        .section-title span {
-            color: #6e7e9f;
-            font-size: 13px;
-        }
+    background:
+        rgba(60,90,255,.09);
 
-        /* =========================
-           ACTIVITY
-        ========================= */
+    font-size: 11px;
+    font-weight: 700;
 
-        .activity-box {
-            border-radius: 22px;
+    letter-spacing: 2px;
 
-            overflow: hidden;
+    margin-bottom: 18px;
+}
 
-            border: 1px solid rgba(100,130,200,.15);
+h1 {
+    font-size: clamp(34px, 6vw, 58px);
+    line-height: 1.05;
+}
 
-            background: rgba(12,20,40,.78);
-        }
+.gradient {
+    background:
+        linear-gradient(
+            90deg,
+            #4da3ff,
+            #a644ff
+        );
 
-        .activity {
-            display: grid;
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
-            grid-template-columns:
-                45px 1fr auto;
+.hero p {
+    margin-top: 15px;
 
-            gap: 15px;
+    color: #8796b4;
 
-            align-items: center;
+    font-size: 16px;
 
-            padding: 17px 20px;
+    line-height: 1.7;
+}
 
-            border-bottom:
-                1px solid rgba(100,130,200,.1);
-        }
 
-        .activity:last-child {
-            border-bottom: 0;
-        }
+/* STATS */
 
-        .activity-icon {
-            width: 38px;
-            height: 38px;
+.stats {
+    display: grid;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    grid-template-columns:
+        repeat(4, 1fr);
 
-            border-radius: 12px;
+    gap: 15px;
 
-            background: #121d3b;
-        }
+    margin-bottom: 35px;
+}
 
-        .activity-name {
-            font-weight: 700;
-            font-size: 14px;
-        }
+.stat {
+    padding: 22px;
 
-        .activity-detail {
-            color: #7e8da9;
-            font-size: 12px;
-            margin-top: 5px;
-        }
+    min-height: 145px;
 
-        .activity-time {
-            color: #657593;
-            font-size: 11px;
-            white-space: nowrap;
-        }
+    border-radius: 22px;
 
-        /* =========================
-           USERS
-        ========================= */
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,31,60,.95),
+            rgba(10,17,35,.9)
+        );
 
-        .users-box {
-            border-radius: 22px;
+    border:
+        1px solid rgba(100,130,200,.16);
 
-            overflow-x: auto;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.2);
+}
 
-            border:
-                1px solid rgba(100,130,200,.15);
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 18px;
+}
 
-            background:
-                rgba(12,20,40,.78);
-        }
+.stat-name {
+    color: #8493b2;
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 750px;
-        }
+    font-size: 11px;
 
-        th {
-            padding: 16px 18px;
+    font-weight: 700;
 
-            text-align: left;
+    letter-spacing: 1.3px;
+}
 
-            color: #71819e;
+.stat-value {
+    margin-top: 8px;
 
-            font-size: 11px;
+    font-size: 32px;
 
-            letter-spacing: 1px;
+    font-weight: 800;
+}
 
-            background: rgba(255,255,255,.02);
-        }
+.online {
+    color: #4dffb2;
+}
 
-        td {
-            padding: 17px 18px;
 
-            border-top:
-                1px solid rgba(100,130,200,.09);
+/* SECTION */
 
-            color: #dce3f2;
+.section-title {
+    display: flex;
 
-            font-size: 13px;
-        }
+    justify-content: space-between;
+    align-items: center;
 
-        .user-name {
-            font-weight: 700;
-        }
+    margin: 45px 0 18px;
+}
 
-        .email {
-            color: #71809d;
-        }
+.section-title h2 {
+    font-size: 25px;
+}
 
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+.section-title span {
+    color: #6e7e9f;
+    font-size: 13px;
+}
 
-            padding: 6px 10px;
 
-            border-radius: 20px;
+/* ACTIVITY */
 
-            font-size: 11px;
-        }
+.activity-box {
+    border-radius: 22px;
 
-        .status-online {
-            color: #4dffb2;
-            background: rgba(40,220,130,.08);
-        }
+    overflow: hidden;
 
-        .status-offline {
-            color: #71809d;
-            background: rgba(100,120,160,.08);
-        }
+    border:
+        1px solid rgba(100,130,200,.15);
 
-        .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: currentColor;
-        }
+    background:
+        rgba(12,20,40,.78);
+}
 
-        .role {
-            color: #aabaff;
-        }
+.activity {
+    display: grid;
 
-        /* =========================
-           FOOTER
-        ========================= */
+    grid-template-columns:
+        45px 1fr auto;
 
-        footer {
-            text-align: center;
-            padding: 35px 20px;
-            color: #52617c;
-            font-size: 12px;
-        }
+    gap: 15px;
 
-        /* =========================
-           MOBILE
-        ========================= */
+    align-items: center;
 
-        @media(max-width: 800px) {
+    padding: 17px 20px;
 
-            header {
-                padding: 16px;
-            }
+    border-bottom:
+        1px solid rgba(100,130,200,.1);
+}
 
-            .admin-label {
-                display: none;
-            }
+.activity:last-child {
+    border-bottom: 0;
+}
 
-            main {
-                padding: 25px 15px 60px;
-            }
+.activity-icon {
+    width: 38px;
+    height: 38px;
 
-            .stats {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
+    display: flex;
 
-            .stat {
-                min-height: 125px;
-                padding: 18px;
-            }
+    align-items: center;
+    justify-content: center;
 
-            .stat-value {
-                font-size: 27px;
-            }
+    border-radius: 12px;
 
-            .activity {
-                grid-template-columns:
-                    40px 1fr;
+    background: #121d3b;
+}
 
-                gap: 12px;
-            }
+.activity-name {
+    font-weight: 700;
+    font-size: 14px;
+}
 
-            .activity-time {
-                grid-column: 2;
-            }
+.activity-detail {
+    color: #7e8da9;
 
-        }
+    font-size: 12px;
 
-        @media(max-width: 450px) {
+    margin-top: 5px;
+}
 
-            .logo {
-                font-size: 22px;
-            }
+.activity-time {
+    color: #657593;
 
-            .logout {
-                padding: 9px 12px;
-            }
+    font-size: 11px;
 
-            .stats {
-                gap: 10px;
-            }
+    white-space: nowrap;
+}
 
-            .stat {
-                padding: 15px;
-            }
 
-            .stat-icon {
-                margin-bottom: 10px;
-            }
+/* USERS */
 
-            .stat-value {
-                font-size: 24px;
-            }
+.users-box {
+    border-radius: 22px;
 
-        }
+    overflow-x: auto;
 
-    </style>
+    border:
+        1px solid rgba(100,130,200,.15);
+
+    background:
+        rgba(12,20,40,.78);
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 800px;
+}
+
+th {
+    padding: 16px 18px;
+
+    text-align: left;
+
+    color: #71819e;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    background:
+        rgba(255,255,255,.02);
+}
+
+td {
+    padding: 17px 18px;
+
+    border-top:
+        1px solid rgba(100,130,200,.09);
+
+    color: #dce3f2;
+
+    font-size: 13px;
+}
+
+.user-name {
+    font-weight: 700;
+}
+
+.email {
+    color: #71809d;
+}
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+}
+
+.status-online {
+    color: #4dffb2;
+
+    background:
+        rgba(40,220,130,.08);
+}
+
+.status-offline {
+    color: #71809d;
+
+    background:
+        rgba(100,120,160,.08);
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+.role {
+    color: #aabaff;
+}
+
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #52617c;
+
+    font-size: 12px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:800px) {
+
+    header {
+        padding: 16px;
+    }
+
+    .admin-label {
+        display: none;
+    }
+
+    main {
+        padding: 25px 15px 60px;
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .stat {
+        min-height: 125px;
+        padding: 18px;
+    }
+
+    .stat-value {
+        font-size: 27px;
+    }
+
+    .activity {
+        grid-template-columns:
+            40px 1fr;
+    }
+
+    .activity-time {
+        grid-column: 2;
+    }
+
+}
+
+@media(max-width:450px) {
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .logout {
+        padding: 9px 12px;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 15px;
+    }
+
+    .stat-icon {
+        margin-bottom: 10px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -486,25 +515,25 @@
 
 <header>
 
-    <div>
+<div>
 
-        <div class="logo">
-            CareerSetu
-        </div>
-
-        <div class="admin-label">
-            ADMIN CONTROL CENTER
-        </div>
-
+    <div class="logo">
+        CareerSetu
     </div>
 
+    <div class="admin-label">
+        ADMIN CONTROL CENTER
+    </div>
 
-    <a
-        href="{{ url_for('admin_logout') }}"
-        class="logout"
-    >
-        Logout
-    </a>
+</div>
+
+
+<a
+    href="{{ url_for('admin_logout') }}"
+    class="logout"
+>
+    Logout
+</a>
 
 </header>
 
@@ -512,436 +541,341 @@
 <main>
 
 
-    <!-- HERO -->
+<section class="hero">
+
+    <div class="badge">
+        ⚡ PLATFORM INTELLIGENCE
+    </div>
 
-    <section class="hero">
+    <h1>
+        Control your
+        <span class="gradient">
+            CareerSetu.
+        </span>
+    </h1>
 
-        <div class="badge">
-            ⚡ PLATFORM INTELLIGENCE
-        </div>
+    <p>
+        Monitor users, activity, AI usage,
+        opportunities and platform growth
+        from one dashboard.
+    </p>
 
-        <h1>
-            Control your
-            <span class="gradient">
-                CareerSetu.
-            </span>
-        </h1>
+</section>
 
-        <p>
-            Monitor users, activity, AI usage,
-            opportunities and platform growth
-            from one dashboard.
-        </p>
 
-    </section>
+<!-- STATS -->
 
+<section class="stats">
 
-    <!-- STATS -->
+<div class="stat">
+    <div class="stat-icon">👥</div>
+    <div class="stat-name">TOTAL USERS</div>
+    <div class="stat-value">
+        {{ total_users }}
+    </div>
+</div>
 
-    <section class="stats">
 
+<div class="stat">
+    <div class="stat-icon">🟢</div>
+    <div class="stat-name">ONLINE NOW</div>
+    <div class="stat-value online">
+        {{ online_users }}
+    </div>
+</div>
 
-        <div class="stat">
 
-            <div class="stat-icon">
-                👥
-            </div>
+<div class="stat">
+    <div class="stat-icon">🤖</div>
+    <div class="stat-name">AI ANALYZER USES</div>
+    <div class="stat-value">
+        {{ total_ai_uses }}
+    </div>
+</div>
 
-            <div class="stat-name">
-                TOTAL USERS
-            </div>
 
-            <div class="stat-value">
-                {{ total_users }}
-            </div>
+<div class="stat">
+    <div class="stat-icon">💼</div>
+    <div class="stat-name">APPLICATIONS</div>
+    <div class="stat-value">
+        {{ total_applications }}
+    </div>
+</div>
 
-        </div>
 
+<div class="stat">
+    <div class="stat-icon">🆕</div>
+    <div class="stat-name">SIGNUPS</div>
+    <div class="stat-value">
+        {{ total_signups }}
+    </div>
+</div>
 
-        <div class="stat">
 
-            <div class="stat-icon">
-                🟢
-            </div>
+<div class="stat">
+    <div class="stat-icon">🔐</div>
+    <div class="stat-name">TOTAL LOGINS</div>
+    <div class="stat-value">
+        {{ total_logins }}
+    </div>
+</div>
 
-            <div class="stat-name">
-                ONLINE NOW
-            </div>
 
-            <div class="stat-value online">
-                {{ online_users }}
-            </div>
+<div class="stat">
+    <div class="stat-icon">💼</div>
+    <div class="stat-name">AVAILABLE GIGS</div>
+    <div class="stat-value">
+        {{ total_gigs }}
+    </div>
+</div>
 
-        </div>
 
+<div class="stat">
+    <div class="stat-icon">🧑‍🏫</div>
+    <div class="stat-name">MENTORS</div>
+    <div class="stat-value">
+        {{ total_mentors }}
+    </div>
+</div>
 
-        <div class="stat">
+</section>
 
-            <div class="stat-icon">
-                🤖
-            </div>
 
-            <div class="stat-name">
-                AI ANALYZER USES
-            </div>
+<!-- ACTIVITY -->
 
-            <div class="stat-value">
-                {{ total_ai_uses }}
-            </div>
+<section>
 
-        </div>
+<div class="section-title">
 
+    <h2>
+        Recent Activity
+    </h2>
 
-        <div class="stat">
+    <span>
+        Latest 50 events
+    </span>
 
-            <div class="stat-icon">
-                💼
-            </div>
+</div>
 
-            <div class="stat-name">
-                APPLICATIONS
-            </div>
 
-            <div class="stat-value">
-                {{ total_applications }}
-            </div>
+<div class="activity-box">
 
-        </div>
+{% if activities %}
 
+{% for activity in activities %}
 
-        <div class="stat">
+<div class="activity">
 
-            <div class="stat-icon">
-                🆕
-            </div>
+<div class="activity-icon">
 
-            <div class="stat-name">
-                SIGNUPS
-            </div>
+{% if activity['action'] == 'LOGIN' %}
+    🟢
+{% elif activity['action'] == 'LOGOUT' %}
+    🔴
+{% elif activity['action'] == 'SIGNUP' %}
+    🆕
+{% elif activity['action'] == 'AI_ANALYZER' %}
+    🤖
+{% elif activity['action'] == 'GIG_APPLICATION' %}
+    💼
+{% else %}
+    ⚡
+{% endif %}
 
-            <div class="stat-value">
-                {{ total_signups }}
-            </div>
+</div>
 
-        </div>
 
+<div>
 
-        <div class="stat">
+<div class="activity-name">
 
-            <div class="stat-icon">
-                🔐
-            </div>
+{{ activity['name'] or 'Unknown User' }}
 
-            <div class="stat-name">
-                TOTAL LOGINS
-            </div>
+·
 
-            <div class="stat-value">
-                {{ total_logins }}
-            </div>
+{{ activity['action'] }}
 
-        </div>
+</div>
 
+<div class="activity-detail">
 
-        <div class="stat">
+{{ activity['details'] }}
 
-            <div class="stat-icon">
-                💼
-            </div>
+</div>
 
-            <div class="stat-name">
-                AVAILABLE GIGS
-            </div>
+</div>
 
-            <div class="stat-value">
-                {{ total_gigs }}
-            </div>
 
-        </div>
+<div class="activity-time">
 
+{{ activity['created_at'] }}
 
-        <div class="stat">
+</div>
 
-            <div class="stat-icon">
-                🧑‍🏫
-            </div>
+</div>
 
-            <div class="stat-name">
-                MENTORS
-            </div>
+{% endfor %}
 
-            <div class="stat-value">
-                {{ total_mentors }}
-            </div>
+{% else %}
 
-        </div>
+<div style="
+    padding:30px;
+    text-align:center;
+    color:#687895;
+">
+    No activity yet.
+</div>
 
+{% endif %}
 
-    </section>
+</div>
 
+</section>
 
-    <!-- ACTIVITY -->
 
-    <section>
+<!-- USERS -->
 
-        <div class="section-title">
+<section>
 
-            <h2>
-                Recent Activity
-            </h2>
+<div class="section-title">
 
-            <span>
-                Latest 50 events
-            </span>
+<h2>
+    Users
+</h2>
 
-        </div>
+<span>
+    Registered CareerSetu users
+</span>
 
+</div>
 
-        <div class="activity-box">
 
+<div class="users-box">
 
-            {% if activities %}
+<table>
 
-                {% for activity in activities %}
+<thead>
 
-                    <div class="activity">
+<tr>
 
+<th>USER</th>
+<th>EMAIL</th>
+<th>ROLE</th>
+<th>STATUS</th>
+<th>SKILLS</th>
+<th>LAST SEEN</th>
 
-                        <div class="activity-icon">
+</tr>
 
-                            {% if activity['action'] == 'LOGIN' %}
-                                🟢
+</thead>
 
-                            {% elif activity['action'] == 'LOGOUT' %}
-                                🔴
 
-                            {% elif activity['action'] == 'SIGNUP' %}
-                                🆕
+<tbody>
 
-                            {% elif activity['action'] == 'AI_ANALYZER' %}
-                                🤖
+{% for user in users %}
 
-                            {% elif activity['action'] == 'GIG_APPLICATION' %}
-                                💼
+<tr>
 
-                            {% else %}
-                                ⚡
-                            {% endif %}
+<td>
 
-                        </div>
+<div class="user-name">
+    {{ user['name'] }}
+</div>
 
+</td>
 
-                        <div>
 
-                            <div class="activity-name">
+<td>
 
-                                {{ activity['name'] or 'Unknown User' }}
+<div class="email">
+    {{ user['email'] }}
+</div>
 
-                                ·
+</td>
 
-                                {{ activity['action'] }}
 
-                            </div>
+<td>
 
+<span class="role">
+    {{ user['role']|title }}
+</span>
 
-                            <div class="activity-detail">
+</td>
 
-                                {{ activity['details'] }}
 
-                            </div>
+<td>
 
-                        </div>
+{% if user['is_online'] == 1 %}
 
+<span class="status status-online">
 
-                        <div class="activity-time">
+<span class="dot"></span>
 
-                            {{ activity['created_at'] }}
+Online
 
-                        </div>
+</span>
 
+{% else %}
 
-                    </div>
+<span class="status status-offline">
 
-                {% endfor %}
+<span class="dot"></span>
 
-            {% else %}
+Offline
 
-                <div style="
-                    padding:30px;
-                    text-align:center;
-                    color:#687895;
-                ">
-                    No activity yet.
-                </div>
+</span>
 
-            {% endif %}
+{% endif %}
 
+</td>
 
-        </div>
 
-    </section>
+<td>
 
+{{ user['skills'] or 'Not added' }}
 
-    <!-- USERS -->
+</td>
 
-    <section>
 
-        <div class="section-title">
+<td>
 
-            <h2>
-                Users
-            </h2>
+{{ user['last_seen'] or 'Never' }}
 
-            <span>
-                Registered CareerSetu users
-            </span>
+</td>
 
-        </div>
+</tr>
 
+{% endfor %}
 
-        <div class="users-box">
 
-            <table>
+{% if not users %}
 
-                <thead>
+<tr>
 
-                    <tr>
+<td
+    colspan="6"
+    style="
+        text-align:center;
+        padding:35px;
+        color:#687895;
+    "
+>
 
-                        <th>
-                            USER
-                        </th>
+No registered users yet.
 
-                        <th>
-                            EMAIL
-                        </th>
+</td>
 
-                        <th>
-                            ROLE
-                        </th>
+</tr>
 
-                        <th>
-                            STATUS
-                        </th>
+{% endif %}
 
-                        <th>
-                            SKILLS
-                        </th>
+</tbody>
 
-                        <th>
-                            LAST SEEN
-                        </th>
+</table>
 
-                    </tr>
+</div>
 
-                </thead>
-
-
-                <tbody>
-
-                    {% for user in users %}
-
-                    <tr>
-
-                        <td>
-
-                            <div class="user-name">
-                                {{ user['name'] }}
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            <div class="email">
-                                {{ user['email'] }}
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="role">
-                                {{ user['role']|title }}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            {% if user['last_seen'] %}
-
-                                <span class="status status-online">
-
-                                    <span class="dot"></span>
-
-                                    Active
-
-                                </span>
-
-                            {% else %}
-
-                                <span class="status status-offline">
-
-                                    <span class="dot"></span>
-
-                                    Offline
-
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-
-                        <td>
-
-                            {{ user['skills'] or 'Not added' }}
-
-                        </td>
-
-
-                        <td>
-
-                            {{ user['last_seen'] or 'Never' }}
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-
-                    {% if not users %}
-
-                    <tr>
-
-                        <td
-                            colspan="6"
-                            style="
-                                text-align:center;
-                                padding:35px;
-                                color:#687895;
-                            "
-                        >
-
-                            No registered users yet.
-
-                        </td>
-
-                    </tr>
-
-                    {% endif %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
+</section>
 
 
 </main>
@@ -949,7 +883,7 @@
 
 <footer>
 
-    CareerSetu Admin • Platform Intelligence
+CareerSetu Admin • Platform Intelligence
 
 </footer>
 
