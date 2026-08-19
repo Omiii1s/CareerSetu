@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}AI Skill-Gap Analyzer — CareerSetu{% endblock %}
+{% block content %}
+<section class="section narrow">
+<p class="eyebrow">AI SKILL-GAP ANALYZER</p>
+<h1>Find what to learn next.</h1>
+<p class="lead">Enter your current skills and interests. This MVP uses a rule-based recommendation engine; it can later be replaced by your ML model.</p>
+<div class="card">
+<form method="post">
+<label>Current skills</label>
+<input name="skills" placeholder="Example: Python, Java, Excel" required>
+<label>Interests</label>
+<input name="interests" placeholder="Example: AI, web development" required>
+<button class="btn" type="submit">Generate Learning Path 🤖</button>
+</form>
+</div>
+{% if result %}
+<div class="card result">
+<h2>Your suggested next skills</h2>
+<ol>{% for item in result %}<li>{{ item }}</li>{% endfor %}</ol>
+<a class="btn" href="{{ url_for('gigs') }}">Find Matching Gigs</a>
+</div>
+{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Micro-Gigs — CareerSetu{% endblock %}
+{% block content %}
+<section class="section">
+<p class="eyebrow">MICRO-GIG MARKETPLACE</p>
+<h1>Earn while you learn.</h1>
+<div class="grid three">
+{% for gig in gigs %}
+<div class="card">
+<span class="pill">{{ gig['skill'] }}</span>
+<h3>{{ gig['title'] }}</h3><p>{{ gig['description'] }}</p>
+<div class="pay">{{ gig['pay'] }}</div>
+<a class="btn small" href="{{ url_for('apply', gig_id=gig['id']) }}">Apply</a>
+</div>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

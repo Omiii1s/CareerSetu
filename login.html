@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Login — CareerSetu{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2>Welcome back 👋</h2>
+<p>Continue your CareerSetu journey.</p>
+<form method="post">
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Password" required>
+<button class="btn" type="submit">Login</button>
+</form>
+<p>New here? <a href="{{ url_for('signup') }}">Create account</a></p>
+</div>
+</div>
+{% endblock %}

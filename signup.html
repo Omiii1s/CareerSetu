@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Sign Up — CareerSetu{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2>Create your CareerSetu account</h2>
+<p>Start your journey from skill to income.</p>
+<form method="post">
+<input name="name" placeholder="Full name" required>
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Password" required>
+<select name="role"><option value="student">Student</option><option value="mentor">Mentor</option><option value="business">Business</option></select>
+<button class="btn" type="submit">Create Account</button>
+</form>
+<p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+</div>
+{% endblock %}

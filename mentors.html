@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Mentors — CareerSetu{% endblock %}
+{% block content %}
+<section class="section">
+<p class="eyebrow">PEER MENTORSHIP</p>
+<h1>Get real guidance.</h1>
+<div class="grid three">
+{% for mentor in mentors %}
+<div class="card"><div class="avatar">{{ mentor['name'][0] }}</div><h3>{{ mentor['name'] }}</h3><span class="pill">{{ mentor['skill'] }}</span><p>{{ mentor['bio'] }}</p><button class="btn small" onclick="alert('Mentor booking will be connected in the next version.')">Request Session</button></div>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

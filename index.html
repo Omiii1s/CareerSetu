@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}CareerSetu — Skill Today. Earn Tomorrow.{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">AI-POWERED CAREER PLATFORM</p>
+    <h1>Skill Today.<br><span>Earn Tomorrow.</span></h1>
+    <p class="lead">A platform for young people to discover the right skills, learn through curated paths, find micro-gigs and get peer guidance.</p>
+    <div class="actions">
+      <a class="btn" href="{{ url_for('signup') }}">Start Your Journey</a>
+      <a class="btn ghost" href="{{ url_for('analyzer') }}">Try AI Analyzer</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="mini">YOUR CAREER LOOP</div>
+    <div class="loop"><b>01</b> Discover</div>
+    <div class="loop"><b>02</b> Learn</div>
+    <div class="loop"><b>03</b> Earn</div>
+    <div class="loop"><b>04</b> Grow</div>
+  </div>
+</section>
+
+<section class="section">
+<h2>One platform. Three loops.</h2>
+<div class="grid three">
+  <div class="card"><div class="icon">🤖</div><h3>AI Skill-Gap Analyzer</h3><p>Get a personalized next-skill roadmap from your interests and current skills.</p></div>
+  <div class="card"><div class="icon">💰</div><h3>Micro-Gig Marketplace</h3><p>Apply your skills to small paid opportunities and build real experience.</p></div>
+  <div class="card"><div class="icon">👥</div><h3>Peer Mentorship</h3><p>Connect with seniors and professionals for practical guidance.</p></div>
+</div>
+</section>
+{% endblock %}

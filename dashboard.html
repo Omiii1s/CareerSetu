@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CareerSetu{% endblock %}
+{% block content %}
+<section class="section">
+<p class="eyebrow">STUDENT DASHBOARD</p>
+<h1>Hi, {{ user['name'] }} 👋</h1>
+<div class="grid three">
+  <div class="card stat"><small>ROLE</small><strong>{{ user['role']|title }}</strong></div>
+  <div class="card stat"><small>YOUR SKILLS</small><strong>{{ user['skills'] or 'Not added yet' }}</strong></div>
+  <div class="card stat"><small>INTERESTS</small><strong>{{ user['interests'] or 'Not added yet' }}</strong></div>
+</div>
+<div class="card">
+<h2>Your next step</h2>
+<p>Run the AI Skill-Gap Analyzer and get a beginner-friendly learning path.</p>
+<a class="btn" href="{{ url_for('analyzer') }}">Analyze My Skills</a>
+</div>
+</section>
+<section class="section">
+<h2>Recommended opportunities</h2>
+<div class="grid three">
+{% for gig in gigs[:3] %}
+<div class="card"><span class="pill">{{ gig['skill'] }}</span><h3>{{ gig['title'] }}</h3><p>{{ gig['description'] }}</p><b>{{ gig['pay'] }}</b></div>
+{% endfor %}
+</div>
+</section>
+{% endblock %}
