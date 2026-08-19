@@ -1,26 +1,368 @@
 {% extends "base.html" %}
+
 {% block title %}Dashboard — CareerSetu{% endblock %}
+
 {% block content %}
-<section class="section">
-<p class="eyebrow">STUDENT DASHBOARD</p>
-<h1>Hi, {{ user['name'] }} 👋</h1>
-<div class="grid three">
-  <div class="card stat"><small>ROLE</small><strong>{{ user['role']|title }}</strong></div>
-  <div class="card stat"><small>YOUR SKILLS</small><strong>{{ user['skills'] or 'Not added yet' }}</strong></div>
-  <div class="card stat"><small>INTERESTS</small><strong>{{ user['interests'] or 'Not added yet' }}</strong></div>
+
+<style>
+/* ===== CAREERSETU PREMIUM DASHBOARD ===== */
+
+.dashboard-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 70px 24px 100px;
+}
+
+/* Header */
+.dashboard-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid rgba(99,102,241,.35);
+    border-radius: 999px;
+    background: rgba(99,102,241,.10);
+    color: #9da8ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+}
+
+.dashboard-title {
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.02;
+    margin: 0 0 18px;
+    letter-spacing: -3px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg,#60a5fa,#818cf8,#c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.dashboard-subtitle {
+    max-width: 650px;
+    color: #9ca9c5;
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 42px;
+}
+
+/* Profile cards */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+    margin-bottom: 32px;
+}
+
+.profile-card {
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
+    border-radius: 22px;
+    background: linear-gradient(
+        145deg,
+        rgba(30,41,75,.80),
+        rgba(10,17,32,.92)
+    );
+    border: 1px solid rgba(148,163,184,.15);
+    box-shadow: 0 15px 45px rgba(0,0,0,.25);
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: -50px;
+    right: -40px;
+    background: #6366f1;
+    filter: blur(55px);
+    opacity: .25;
+}
+
+.card-icon {
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.card-label {
+    display: block;
+    color: #7f8da9;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.card-value {
+    color: #f5f7ff;
+    font-size: 18px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+/* Next step */
+.next-step {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    border-radius: 28px;
+    margin-bottom: 70px;
+    background:
+        radial-gradient(circle at 85% 20%,rgba(124,58,237,.30),transparent 35%),
+        linear-gradient(135deg,#111b38,#0b1224);
+    border: 1px solid rgba(99,102,241,.25);
+    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+.next-step h2 {
+    font-size: 32px;
+    margin: 0 0 12px;
+}
+
+.next-step p {
+    color: #9ca9c5;
+    max-width: 650px;
+    line-height: 1.7;
+    font-size: 16px;
+    margin-bottom: 26px;
+}
+
+/* Button */
+.premium-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 24px;
+    border-radius: 14px;
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: 800;
+    background: linear-gradient(90deg,#3b82f6,#8b5cf6);
+    box-shadow: 0 12px 30px rgba(99,102,241,.30);
+    transition: .25s ease;
+}
+
+.premium-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(99,102,241,.45);
+}
+
+/* Opportunities */
+.section-title {
+    font-size: 36px;
+    margin: 0 0 25px;
+}
+
+.gigs-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.gig-card {
+    position: relative;
+    padding: 26px;
+    border-radius: 22px;
+    background: rgba(15,23,42,.75);
+    border: 1px solid rgba(148,163,184,.14);
+    transition: .25s ease;
+}
+
+.gig-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(129,140,248,.5);
+    box-shadow: 0 20px 45px rgba(0,0,0,.35);
+}
+
+.skill-pill {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(99,102,241,.13);
+    color: #a5b4fc;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.gig-card h3 {
+    margin: 0 0 10px;
+    font-size: 21px;
+    color: #f8fafc;
+}
+
+.gig-card p {
+    color: #8f9db7;
+    line-height: 1.6;
+    font-size: 14px;
+    min-height: 68px;
+}
+
+.gig-pay {
+    display: block;
+    margin-top: 20px;
+    color: #67e8f9;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+
+    .dashboard-page {
+        padding: 45px 18px 80px;
+    }
+
+    .dashboard-title {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    .dashboard-subtitle {
+        font-size: 16px;
+    }
+
+    .profile-grid,
+    .gigs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .next-step {
+        padding: 28px 22px;
+    }
+
+    .next-step h2 {
+        font-size: 28px;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    .premium-btn {
+        width: 100%;
+    }
+}
+</style>
+
+
+<div class="dashboard-page">
+
+    <!-- INTRO -->
+    <div class="dashboard-label">
+        ✦ STUDENT DASHBOARD
+    </div>
+
+    <h1 class="dashboard-title">
+        Hi, {{ user['name'] }} 👋<br>
+        <span class="gradient-text">Let's build your future.</span>
+    </h1>
+
+    <p class="dashboard-subtitle">
+        Your personalized CareerSetu workspace.
+        Discover your strengths, identify skill gaps,
+        and find opportunities that match your skills.
+    </p>
+
+
+    <!-- PROFILE -->
+    <div class="profile-grid">
+
+        <div class="profile-card">
+            <div class="card-icon">👤</div>
+            <span class="card-label">YOUR ROLE</span>
+            <div class="card-value">
+                {{ user['role']|title }}
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="card-icon">⚡</div>
+            <span class="card-label">YOUR SKILLS</span>
+            <div class="card-value">
+                {{ user['skills'] or 'Not added yet' }}
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="card-icon">🎯</div>
+            <span class="card-label">YOUR INTERESTS</span>
+            <div class="card-value">
+                {{ user['interests'] or 'Not added yet' }}
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- AI ANALYZER -->
+    <div class="next-step">
+
+        <div class="dashboard-label">
+            🤖 AI CAREER INTELLIGENCE
+        </div>
+
+        <h2>
+            Find your next skill.
+        </h2>
+
+        <p>
+            Run the AI Skill-Gap Analyzer to discover
+            what you should learn next and get a
+            personalized beginner-friendly roadmap.
+        </p>
+
+        <a class="premium-btn"
+           href="{{ url_for('analyzer') }}">
+            ✨ Analyze My Skills →
+        </a>
+
+    </div>
+
+
+    <!-- OPPORTUNITIES -->
+    <section>
+
+        <h2 class="section-title">
+            Recommended <span class="gradient-text">Opportunities</span>
+        </h2>
+
+        <div class="gigs-grid">
+
+            {% for gig in gigs[:3] %}
+
+            <div class="gig-card">
+
+                <span class="skill-pill">
+                    {{ gig['skill'] }}
+                </span>
+
+                <h3>
+                    {{ gig['title'] }}
+                </h3>
+
+                <p>
+                    {{ gig['description'] }}
+                </p>
+
+                <strong class="gig-pay">
+                    {{ gig['pay'] }}
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
 </div>
-<div class="card">
-<h2>Your next step</h2>
-<p>Run the AI Skill-Gap Analyzer and get a beginner-friendly learning path.</p>
-<a class="btn" href="{{ url_for('analyzer') }}">Analyze My Skills</a>
-</div>
-</section>
-<section class="section">
-<h2>Recommended opportunities</h2>
-<div class="grid three">
-{% for gig in gigs[:3] %}
-<div class="card"><span class="pill">{{ gig['skill'] }}</span><h3>{{ gig['title'] }}</h3><p>{{ gig['description'] }}</p><b>{{ gig['pay'] }}</b></div>
-{% endfor %}
-</div>
-</section>
+
 {% endblock %}
