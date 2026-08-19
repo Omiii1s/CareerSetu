@@ -760,3 +760,28 @@ label {
         border-radius: 22px;
     }
 }
+/* Career Loop connector */
+
+.loop-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.loop-item strong {
+    margin: 0;
+    min-width: 32px;
+}
+
+.loop-item strong::after {
+    content: "→";
+    margin-left: 12px;
+    color: #6366f1;
+    font-size: 1.2rem;
+}
+
+.loop-item span {
+    margin: 0;
+}
