@@ -1,22 +1,18 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__, template_folder='.', static_folder='.')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=BASE_DIR,
+    static_folder=os.path.join(BASE_DIR, "static"),
+    static_url_path="/static"
+)
 app.secret_key = "careersetup-mvp-change-this-secret"
 
-@app.after_request
-def add_stylesheet(response):
-    if response.content_type and response.content_type.startswith("text/html"):
-        body = response.get_data(as_text=True)
-        if "/static/style.css" not in body:
-            body = body.replace(
-                "</head>",
-                '<link rel="stylesheet" href="/static/style.css"></head>',
-                1
-            )
-            response.set_data(body)
-    return response
 DB = "careersetu.db"
 
 def db():
