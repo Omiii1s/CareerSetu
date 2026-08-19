@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CareerSetu Admin</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 15% 0%,
+                    rgba(55,100,255,.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 100% 30%,
+                    rgba(150,50,255,.15),
+                    transparent 30%
+                ),
+                #050814;
+
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+
+            padding: 18px 24px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(5,8,20,.85);
+            border-bottom: 1px solid rgba(120,140,200,.15);
+
+            backdrop-filter: blur(18px);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #49a3ff,
+                    #a33cff
+                );
+
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .admin-label {
+            color: #8999b8;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
+        }
+
+        .logout {
+            padding: 11px 17px;
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #367dff,
+                    #9638f5
+                );
+
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 20px 80px;
+        }
+
+        .hero {
+            padding: 28px 0 35px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 9px 15px;
+
+            border-radius: 30px;
+
+            color: #9db5ff;
+
+            border: 1px solid rgba(90,120,255,.3);
+
+            background: rgba(60,90,255,.09);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(34px, 6vw, 58px);
+            line-height: 1.05;
+        }
+
+        .gradient {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4da3ff,
+                    #a644ff
+                );
+
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            margin-top: 15px;
+            color: #8796b4;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 35px;
+        }
+
+        .stat {
+            padding: 22px;
+
+            min-height: 145px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20,31,60,.95),
+                    rgba(10,17,35,.9)
+                );
+
+            border: 1px solid rgba(100,130,200,.16);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.2);
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .stat-name {
+            color: #8493b2;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+        }
+
+        .stat-value {
+            margin-top: 8px;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .online {
+            color: #4dffb2;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 45px 0 18px;
+        }
+
+        .section-title h2 {
+            font-size: 25px;
+        }
+
+        .section-title span {
+            color: #6e7e9f;
+            font-size: 13px;
+        }
+
+        /* =========================
+           ACTIVITY
+        ========================= */
+
+        .activity-box {
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            border: 1px solid rgba(100,130,200,.15);
+
+            background: rgba(12,20,40,.78);
+        }
+
+        .activity {
+            display: grid;
+
+            grid-template-columns:
+                45px 1fr auto;
+
+            gap: 15px;
+
+            align-items: center;
+
+            padding: 17px 20px;
+
+            border-bottom:
+                1px solid rgba(100,130,200,.1);
+        }
+
+        .activity:last-child {
+            border-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #121d3b;
+        }
+
+        .activity-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .activity-detail {
+            color: #7e8da9;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .activity-time {
+            color: #657593;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           USERS
+        ========================= */
+
+        .users-box {
+            border-radius: 22px;
+
+            overflow-x: auto;
+
+            border:
+                1px solid rgba(100,130,200,.15);
+
+            background:
+                rgba(12,20,40,.78);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            padding: 16px 18px;
+
+            text-align: left;
+
+            color: #71819e;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+
+            background: rgba(255,255,255,.02);
+        }
+
+        td {
+            padding: 17px 18px;
+
+            border-top:
+                1px solid rgba(100,130,200,.09);
+
+            color: #dce3f2;
+
+            font-size: 13px;
+        }
+
+        .user-name {
+            font-weight: 700;
+        }
+
+        .email {
+            color: #71809d;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+        }
+
+        .status-online {
+            color: #4dffb2;
+            background: rgba(40,220,130,.08);
+        }
+
+        .status-offline {
+            color: #71809d;
+            background: rgba(100,120,160,.08);
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .role {
+            color: #aabaff;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            color: #52617c;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 800px) {
+
+            header {
+                padding: 16px;
+            }
+
+            .admin-label {
+                display: none;
+            }
+
+            main {
+                padding: 25px 15px 60px;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .stat {
+                min-height: 125px;
+                padding: 18px;
+            }
+
+            .stat-value {
+                font-size: 27px;
+            }
+
+            .activity {
+                grid-template-columns:
+                    40px 1fr;
+
+                gap: 12px;
+            }
+
+            .activity-time {
+                grid-column: 2;
+            }
+
+        }
+
+        @media(max-width: 450px) {
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .logout {
+                padding: 9px 12px;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat {
+                padding: 15px;
+            }
+
+            .stat-icon {
+                margin-bottom: 10px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div>
+
+        <div class="logo">
+            CareerSetu
+        </div>
+
+        <div class="admin-label">
+            ADMIN CONTROL CENTER
+        </div>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('admin_logout') }}"
+        class="logout"
+    >
+        Logout
+    </a>
+
+</header>
+
+
+<main>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="badge">
+            ⚡ PLATFORM INTELLIGENCE
+        </div>
+
+        <h1>
+            Control your
+            <span class="gradient">
+                CareerSetu.
+            </span>
+        </h1>
+
+        <p>
+            Monitor users, activity, AI usage,
+            opportunities and platform growth
+            from one dashboard.
+        </p>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                👥
+            </div>
+
+            <div class="stat-name">
+                TOTAL USERS
+            </div>
+
+            <div class="stat-value">
+                {{ total_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🟢
+            </div>
+
+            <div class="stat-name">
+                ONLINE NOW
+            </div>
+
+            <div class="stat-value online">
+                {{ online_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🤖
+            </div>
+
+            <div class="stat-name">
+                AI ANALYZER USES
+            </div>
+
+            <div class="stat-value">
+                {{ total_ai_uses }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                💼
+            </div>
+
+            <div class="stat-name">
+                APPLICATIONS
+            </div>
+
+            <div class="stat-value">
+                {{ total_applications }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🆕
+            </div>
+
+            <div class="stat-name">
+                SIGNUPS
+            </div>
+
+            <div class="stat-value">
+                {{ total_signups }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🔐
+            </div>
+
+            <div class="stat-name">
+                TOTAL LOGINS
+            </div>
+
+            <div class="stat-value">
+                {{ total_logins }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                💼
+            </div>
+
+            <div class="stat-name">
+                AVAILABLE GIGS
+            </div>
+
+            <div class="stat-value">
+                {{ total_gigs }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🧑‍🏫
+            </div>
+
+            <div class="stat-name">
+                MENTORS
+            </div>
+
+            <div class="stat-value">
+                {{ total_mentors }}
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ACTIVITY -->
+
+    <section>
+
+        <div class="section-title">
+
+            <h2>
+                Recent Activity
+            </h2>
+
+            <span>
+                Latest 50 events
+            </span>
+
+        </div>
+
+
+        <div class="activity-box">
+
+
+            {% if activities %}
+
+                {% for activity in activities %}
+
+                    <div class="activity">
+
+
+                        <div class="activity-icon">
+
+                            {% if activity['action'] == 'LOGIN' %}
+                                🟢
+
+                            {% elif activity['action'] == 'LOGOUT' %}
+                                🔴
+
+                            {% elif activity['action'] == 'SIGNUP' %}
+                                🆕
+
+                            {% elif activity['action'] == 'AI_ANALYZER' %}
+                                🤖
+
+                            {% elif activity['action'] == 'GIG_APPLICATION' %}
+                                💼
+
+                            {% else %}
+                                ⚡
+                            {% endif %}
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="activity-name">
+
+                                {{ activity['name'] or 'Unknown User' }}
+
+                                ·
+
+                                {{ activity['action'] }}
+
+                            </div>
+
+
+                            <div class="activity-detail">
+
+                                {{ activity['details'] }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-time">
+
+                            {{ activity['created_at'] }}
+
+                        </div>
+
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div style="
+                    padding:30px;
+                    text-align:center;
+                    color:#687895;
+                ">
+                    No activity yet.
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+
+    <!-- USERS -->
+
+    <section>
+
+        <div class="section-title">
+
+            <h2>
+                Users
+            </h2>
+
+            <span>
+                Registered CareerSetu users
+            </span>
+
+        </div>
+
+
+        <div class="users-box">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            USER
+                        </th>
+
+                        <th>
+                            EMAIL
+                        </th>
+
+                        <th>
+                            ROLE
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            SKILLS
+                        </th>
+
+                        <th>
+                            LAST SEEN
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="user-name">
+                                {{ user['name'] }}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="email">
+                                {{ user['email'] }}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="role">
+                                {{ user['role']|title }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if user['last_seen'] %}
+
+                                <span class="status status-online">
+
+                                    <span class="dot"></span>
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="status status-offline">
+
+                                    <span class="dot"></span>
+
+                                    Offline
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ user['skills'] or 'Not added' }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ user['last_seen'] or 'Never' }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    {% if not users %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            style="
+                                text-align:center;
+                                padding:35px;
+                                color:#687895;
+                            "
+                        >
+
+                            No registered users yet.
+
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    CareerSetu Admin • Platform Intelligence
+
+</footer>
+
+
+</body>
+
+</html>
