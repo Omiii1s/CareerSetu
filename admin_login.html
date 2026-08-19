@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login — CareerSetu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #f8fafc;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(70,120,255,.25), transparent 35%),
+                radial-gradient(circle at 90% 80%, rgba(150,50,255,.22), transparent 35%),
+                #050814;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 430px;
+            padding: 38px;
+            border-radius: 28px;
+            border: 1px solid rgba(120,150,255,.22);
+            background: rgba(15,24,48,.78);
+            box-shadow: 0 30px 90px rgba(0,0,0,.45);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            background: linear-gradient(90deg,#4da3ff,#a044ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 15px;
+            border-radius: 30px;
+            background: rgba(70,100,255,.12);
+            border: 1px solid rgba(100,130,255,.3);
+            color: #9bb4ff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8998b5;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #b9c5db;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 16px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            border: 1px solid #263557;
+            outline: none;
+            background: #0a1226;
+            color: white;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #667cff;
+            box-shadow: 0 0 0 3px rgba(90,110,255,.12);
+        }
+
+        button {
+            width: 100%;
+            border: 0;
+            padding: 16px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            background: linear-gradient(90deg,#367dff,#9638f5);
+            box-shadow: 0 12px 35px rgba(70,90,255,.25);
+        }
+
+        button:active {
+            transform: scale(.98);
+        }
+
+        .error {
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            background: rgba(255,70,90,.12);
+            color: #ff8e9d;
+            border: 1px solid rgba(255,70,90,.2);
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #7f91b5;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <div class="logo">CareerSetu</div>
+
+    <div class="badge">ADMIN CONTROL CENTER</div>
+
+    <h1>Welcome back.</h1>
+
+    <p class="subtitle">
+        Manage users, activity and your CareerSetu platform
+        from one place.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="error">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Admin Email</label>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="admin@careersetu.com"
+            required
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter admin password"
+            required
+        >
+
+        <button type="submit">
+            Enter Admin Dashboard →
+        </button>
+
+    </form>
+
+    <a href="/" class="back">
+        ← Back to CareerSetu
+    </a>
+
+</div>
+
+</body>
+</html>
