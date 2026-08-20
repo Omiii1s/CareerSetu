@@ -705,6 +705,55 @@ def admin_logout():
         url_for("admin_login")
     )
 
+# =========================================================
+# ADMIN RESET USER PASSWORD
+# =========================================================
+
+@app.route("/admin/reset-password/<int:user_id>", methods=["POST"])
+def admin_reset_password(user_id):
+
+    if not session.get("admin"):
+        return redirect(url_for("admin_login"))
+
+    new_password = request.form.get("new_password", "").strip()
+
+    if len(new_password) < 6:
+        flash("Password must be at least 6 characters.", "error")
+        return redirect(url_for("admin"))
+
+    conn = db()
+
+    user = conn.execute(
+        "SELECT id, name, email FROM users WHERE id=?",
+        (user_id,)
+    ).fetchone()
+
+    if not user:
+        conn.close()
+        flash("User not found.", "error")
+        return redirect(url_for("admin"))
+
+    conn.execute(
+        """
+        UPDATE users
+        SET password=?
+        WHERE id=?
+        """,
+        (
+            generate_password_hash(new_password),
+            user_id
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    flash(
+        f"Password reset successfully for {user['name']}.",
+        "success"
+    )
+
+    return redirect(url_for("admin"))
 
 # =========================================================
 # ADMIN DASHBOARD
